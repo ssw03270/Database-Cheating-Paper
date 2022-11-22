@@ -5,6 +5,9 @@ from selenium.webdriver.common.by import By
 import time
 import numpy as np
 
+id = 'your id'
+password = 'password'
+
 all_problem = {}
 
 def solve_homework():
@@ -32,9 +35,22 @@ def solve_homework():
         examples = []
         radio_btns = []
         print(i)
-        for t in range(1, 5):
-            examples.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child('+ str (i * 2) + ') > tbody > tr:nth-child(' + str(t) + ') > td:nth-child(4)').text)
-            radio_btns.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child('+ str (i * 2) + ') > tbody > tr:nth-child(' + str(t) + ') > td:nth-child(2) > input[type=radio]'))
+
+        is_horizontal = False
+        try:
+            temp = browser.find_element(By.CSS_SELECTOR,  'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child('+ str (i * 2) + ') > tbody > tr:nth-child(4)')
+            is_horizontal = False
+        except:
+            is_horizontal = True
+
+        if not is_horizontal:
+            for t in range(1, 5):
+                examples.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child('+ str (i * 2) + ') > tbody > tr:nth-child(' + str(t) + ') > td:nth-child(4)').text)
+                radio_btns.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child('+ str (i * 2) + ') > tbody > tr:nth-child(' + str(t) + ') > td:nth-child(2) > input[type=radio]'))
+        else:
+            for t in range(1, 5):
+                examples.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child(' + str(i * 2) + ') > tbody > tr:nth-child(1) > td:nth-child(' + str(t * 4) + ')').text)
+                radio_btns.append(browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table:nth-child(' + str(i * 2) + ') > tbody > tr:nth-child(1) > td:nth-child(' + str(t * 4 - 2) + ') > input[type=radio]'))
 
         is_find_answer = False
         for radio_btn, example in zip(radio_btns, examples):
@@ -131,9 +147,6 @@ browser.get("https://www.newgradiance.com/services/servlet/COTC")
 id_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > input[type=text]')
 password_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(4) > td:nth-child(2) > input[type=password]')
 login_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(6) > td > input[type=image]:nth-child(1)')
-
-id = 'your id'
-password = 'your password'
 
 id_input.send_keys(id)
 password_input.send_keys(password)
