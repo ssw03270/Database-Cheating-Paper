@@ -167,7 +167,7 @@ def Process():
     check_answer()
     solve_homework()
 
-schedule.every(3).seconds.do(Process)#10분 6초마다 실행 반복
+schedule.every(606).seconds.do(Process)#10분 6초마다 실행 반복
 while True:#이벤트 대기
     schedule.run_pending()
     time.sleep(1)
