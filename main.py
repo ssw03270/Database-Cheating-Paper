@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 import numpy as np
+import schedule
 
 id = 'your id'
 password = 'password'
@@ -140,26 +141,33 @@ def check_answer():
         browser.back()
     browser.back()
 
-# login process
-browser = webdriver.Chrome()
-browser.get("https://www.newgradiance.com/services/servlet/COTC")
+def Process():
+    # login process
+    global browser
+    browser = webdriver.Chrome()
+    browser.get("https://www.newgradiance.com/services/servlet/COTC")
 
-id_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > input[type=text]')
-password_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(4) > td:nth-child(2) > input[type=password]')
-login_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(6) > td > input[type=image]:nth-child(1)')
+    id_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(3) > td:nth-child(2) > input[type=text]')
+    password_input = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(4) > td:nth-child(2) > input[type=password]')
+    login_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(2) > td > form > table > tbody > tr:nth-child(6) > td > input[type=image]:nth-child(1)')
 
-id_input.send_keys(id)
-password_input.send_keys(password)
+    id_input.send_keys(id)
+    password_input.send_keys(password)
 
-login_btn.click()
+    login_btn.click()
 
-# select class
-class_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > form > table.normalfont > tbody > tr > td:nth-child(1) > a')
-class_btn.click()
+    # select class
+    class_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > form > table.normalfont > tbody > tr > td:nth-child(1) > a')
+    class_btn.click()
 
-# select homework menu
-homework_menu_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(10) > td > a')
-homework_menu_btn.click()
+    # select homework menu
+    homework_menu_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(10) > td > a')
+    homework_menu_btn.click()
 
-check_answer()
-solve_homework()
+    check_answer()
+    solve_homework()
+
+schedule.every(3).seconds.do(Process)#10분 6초마다 실행 반복
+while True:#이벤트 대기
+    schedule.run_pending()
+    time.sleep(1)
