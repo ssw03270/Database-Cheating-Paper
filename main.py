@@ -4,10 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 import numpy as np
-import schedule
+import threading
 
 id = 'your id'
-password = 'password'
+password = 'your password'
 
 all_problem = {}
 
@@ -167,7 +167,6 @@ def Process():
     check_answer()
     solve_homework()
 
-schedule.every(606).seconds.do(Process)#10분 6초마다 실행 반복
-while True:#이벤트 대기
-    schedule.run_pending()
-    time.sleep(1)
+    threading.Timer(606,Process).start() #restart process after 10minute
+
+Process()
