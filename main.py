@@ -6,8 +6,8 @@ import time
 import numpy as np
 import threading
 
-id = 'your id'
-password = 'your password'
+id = 'id'
+password = 'password'
 
 all_problem = {}
 
@@ -67,10 +67,7 @@ def solve_homework():
                     radio_btn.click()
                     break
             i += 1
-
-    # while(True):
-    # 	pass
-
+            
     submit_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr > td:nth-child(2) > form > table.normalfont > tbody > tr > td > input[type=submit]')
     submit_btn.click()
 
@@ -141,6 +138,19 @@ def check_answer():
         browser.back()
     browser.back()
 
+def IsPerfectScore():
+    past_submissions = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr:nth-child(3) > td:nth-child(5) > a')
+    past_submissions.click()
+
+    last_score = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr:nth-child(2) > td:nth-child(2) > b')
+    current_score = last_score.text.split("/")[0]
+    perfect_score = last_score.text.split("/")[1].split(".")[0]
+    
+    if current_score == perfect_score:
+        return True
+    else:
+        return False
+    
 def Process():
     # login process
     global browser
@@ -164,9 +174,11 @@ def Process():
     homework_menu_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td:nth-child(1) > table > tbody > tr:nth-child(10) > td > a')
     homework_menu_btn.click()
 
-    check_answer()
-    solve_homework()
+    if not IsPerfectScore():
+        check_answer()
+        solve_homework()
 
-    threading.Timer(606,Process).start() #restart process after 10minute
+        threading.Timer(606,Process).start()
 
-Process()
+if __name__ == "__main__":
+    Process()
