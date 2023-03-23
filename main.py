@@ -74,6 +74,7 @@ def solve_homework():
     browser.back()
 
 def check_answer():
+    browser.get("https://www.newgradiance.com/cguw/servlet/COTC?Command=StudentHomeworks&Screen=HomePage:StudentHomeworks&sessionId=269178822D3A8DC3A5ED09EDC295A7A036E15CE4")
     past_submissions_btn = browser.find_element(By.CSS_SELECTOR, 'body > table > tbody > tr > td.lightbackgroundwithnormalfont > table:nth-child(3) > tbody > tr:nth-child(3) > td:nth-child(5) > a')
     past_submissions_btn.click()
 
